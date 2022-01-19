@@ -1,9 +1,9 @@
 {
-  "name": "cc.fovea.cordova.openwith",
+  "name": "cc.snapaddy.cordova.openwith",
   "version": "2.1.0",
   "description": "Cordova \"Open With\" plugin for iOS and Android",
   "cordova": {
-    "id": "cc.fovea.cordova.openwith",
+    "id": "cc.snapaddy.cordova.openwith",
     "platforms": [
       "android",
       "ios"
