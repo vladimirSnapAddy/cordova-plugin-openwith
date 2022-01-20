@@ -1,4 +1,4 @@
-package cc.fovea.openwith;
+package cc.snapaddy.openwith;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

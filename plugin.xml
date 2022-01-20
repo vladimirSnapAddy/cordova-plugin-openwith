@@ -61,11 +61,11 @@ SOFTWARE.
 
         <source-file src="src/ios/OpenWithPlugin.m" />
 
-        <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+        <config-file target="src/ios/ShareExtension/ShareExtension-Info.plist" parent="CFBundleURLTypes">
             <array>
                 <dict>
                     <key>CFBundleURLName</key>
-                    <string>cc.fovea.openwith.$IOS_URL_SCHEME.shareextension</string>
+                    <string>cc.snapaddy.openwith.$IOS_URL_SCHEME.shareextension</string>
                     <key>CFBundleURLSchemes</key>
                     <array>
                         <string>$IOS_URL_SCHEME</string>

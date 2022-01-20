@@ -1,4 +1,4 @@
-package cc.fovea.openwith;
+package cc.snapaddy.openwith;
 
 import android.content.ClipData;
 import android.content.ContentResolver;

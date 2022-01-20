@@ -1,4 +1,4 @@
-package cc.fovea.openwith;
+package cc.snapaddy.openwith;
 
 import android.content.ContentResolver;
 import android.content.Intent;
