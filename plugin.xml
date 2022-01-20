@@ -61,7 +61,7 @@ SOFTWARE.
 
         <source-file src="src/ios/OpenWithPlugin.m" />
 
-        <config-file target="src/ios/ShareExtension/ShareExtension-Info.plist" parent="CFBundleURLTypes">
+        <config-file target="ShareExtension/ShareExtension-Info.plist" parent="CFBundleURLTypes">
             <array>
                 <dict>
                     <key>CFBundleURLName</key>
