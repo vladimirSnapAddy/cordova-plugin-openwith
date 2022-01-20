@@ -320,7 +320,7 @@ module.exports = function (context) {
             if (productName.indexOf('ShareExt') >= 0) {
               buildSettingsObj['DEVELOPMENT_TEAM'] = DEVELOPMENT_TEAM;
               buildSettingsObj['CODE_SIGN_STYLE'] = 'Automatic';
-              buildSettingsObj['CODE_SIGN_IDENTITY'] = '"Apple Development"';
+              buildSettingsObj['CODE_SIGN_IDENTITY'] = 'Apple Development';
               console.log('Added signing identities for extension!');
             }
           }
