@@ -129,13 +129,19 @@
             [self debug:[NSString stringWithFormat:@"item provider = %@", itemProvider]];
             
             [itemProvider loadItemForTypeIdentifier:SHAREEXT_UNIFORM_TYPE_IDENTIFIER options:nil completionHandler: ^(id<NSSecureCoding> item, NSError *error) {
-                
+
+                NSString* myString;
+
                 NSData *data = [[NSData alloc] init];
                 if([(NSObject*)item isKindOfClass:[NSURL class]]) {
                     data = [NSData dataWithContentsOfURL:(NSURL*)item];
+                    myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 }
                 if([(NSObject*)item isKindOfClass:[UIImage class]]) {
                     data = UIImagePNGRepresentation((UIImage*)item);
+                }
+                if([(NSObject*)item isKindOfClass:[NSString class]]) {
+                    data = item;
                 }
 
                 NSString *suggestedName = @"";
@@ -152,10 +158,11 @@
                 else {
                     uti = SHAREEXT_UNIFORM_TYPE_IDENTIFIER;
                 }
+
                 NSDictionary *dict = @{
                     @"text": self.contentText,
                     @"backURL": self.backURL,
-                    @"data" : data,
+                    @"data" : myString,
                     @"uti": uti,
                     @"utis": utis,
                     @"name": suggestedName

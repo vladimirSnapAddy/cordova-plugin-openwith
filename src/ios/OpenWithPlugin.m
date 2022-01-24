@@ -3,50 +3,6 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 
 /*
- * Add base64 export to NSData
- */
-@interface NSData (Base64)
-- (NSString*)convertToBase64;
-@end
-
-@implementation NSData (Base64)
-- (NSString*)convertToBase64 {
-    const uint8_t* input = (const uint8_t*)[self bytes];
-    NSInteger length = [self length];
-
-    static char table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-
-    NSMutableData* data = [NSMutableData dataWithLength:((length + 2) / 3) * 4];
-    uint8_t* output = (uint8_t*)data.mutableBytes;
-
-    NSInteger i;
-    for (i=0; i < length; i += 3) {
-        NSInteger value = 0;
-        NSInteger j;
-        for (j = i; j < (i + 3); j++) {
-            value <<= 8;
-
-            if (j < length) {
-                value |= (0xFF & input[j]);
-            }
-        }
-
-        NSInteger theIndex = (i / 3) * 4;
-        output[theIndex + 0] =                    table[(value >> 18) & 0x3F];
-        output[theIndex + 1] =                    table[(value >> 12) & 0x3F];
-        output[theIndex + 2] = (i + 1) < length ? table[(value >> 6)  & 0x3F] : '=';
-        output[theIndex + 3] = (i + 2) < length ? table[(value >> 0)  & 0x3F] : '=';
-    }
-
-    NSString *ret = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-#if ARC_DISABLED
-    [ret autorelease];
-#endif
-    return ret;
-}
-@end
-
-/*
  * Constants
  */
 
@@ -227,12 +183,12 @@ static NSDictionary* launchOptions = nil;
         return;
     }
     NSDictionary *dict = (NSDictionary*)object;
-    NSData *data = dict[@"data"];
+    NSString *data = dict[@"data"];
     NSString *text = dict[@"text"];
     NSString *name = dict[@"name"];
     self.backURL = dict[@"backURL"];
     NSString *type = [self mimeTypeFromUti:dict[@"uti"]];
-    if (![data isKindOfClass:NSData.class] || ![text isKindOfClass:NSString.class]) {
+    if (![data isKindOfClass:NSString.class] || ![text isKindOfClass:NSString.class]) {
         [self debug:@"[checkForFileToShare] Data content is invalid"];
         return;
     }
@@ -244,11 +200,6 @@ static NSDictionary* launchOptions = nil;
     // TODO: add the backURL to the shared intent, put it aside in the plugin
     // TODO: implement cordova.openwith.exit(intent), will check if backURL is set
 
-    // Send to javascript
-    [self debug:[NSString stringWithFormat:
-        @"[checkForFileToShare] Sharing text \"%@\" and a %d bytes image",
-        text, data.length]];
-
     NSString *uri = [NSString stringWithFormat: @"shareextension://index=0,name=%@,type=%@",
         name, type];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{
@@ -256,7 +207,7 @@ static NSDictionary* launchOptions = nil;
         @"exit": @YES,
         @"items": @[@{
             @"text" : text,
-            @"base64": [data convertToBase64],
+            @"data": data,
             @"type": type,
             @"utis": utis,
             @"uri": uri,
